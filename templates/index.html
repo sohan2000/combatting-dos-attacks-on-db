@@ -1,0 +1,155 @@
+<!-- templates/index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f2f2f2;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: calc(100% - 22px);
+            margin-bottom: 10px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background: #007bff;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background: #0056b3;
+        }
+        #results {
+            text-align: left;
+            padding: 10px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .record {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .record:last-child {
+            border-bottom: none;
+        }
+        .record h3 {
+            margin: 0;
+            color: #007bff;
+        }
+        .record p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Database Record Search</h1>
+        <form id="searchForm">
+            <input type="text" name="name" placeholder="Enter name to search">
+            <label for="courses">Choose courses</label> 
+            <select name="courses" id="courses" placeholder="Select course name to search" style="width: 79%; height: 43px; padding: 2%;">
+                <option value="default">Select Course</option>
+                <option value="CS49J">CS 49J - Programming in Java
+                <option value="CS157A">CS 157A - Introduction to Database Management Systems
+                <option value="CS160">CS 160 - Software Engineering
+                <option value="CS175">CS 175 - Mobile Device Development
+                <option value="CS249">CS 249 - Distributed Computing
+                <option value="CS257">CS 257 - Database System Principles</option>
+            </select>
+            <input type="submit" value="Search">
+        </form>
+        <h3>Results for the Search</h3>
+        <div id="results" style="height: auto;"></div>
+    </div>
+
+    <script>
+        document.getElementById('searchForm').onsubmit = function(e) {
+            e.preventDefault();
+
+            fetch('/search', {
+                method: 'POST',
+                body: new FormData(this)
+            })
+            .then(response => response.json())
+            .then(data => {
+                var searchText = document.getElementsByName('name')[0].value;
+                var results = document.getElementById('results');
+                results.innerHTML = '';
+                if(searchText === ''){
+                    var div = document.createElement('div');
+                    div.className = 'record';
+                    div.innerHTML = '<h3> Enter text to search! </h3>';
+                    results.appendChild(div);
+                }
+                else{
+                    data.forEach(function(record) {
+                        var div = document.createElement('div');
+                        div.className = 'record';
+                        div.innerHTML = '<p>' + record.username + '</p>' + '<p>' + record.email + '</p>';
+                        results.appendChild(div);
+                    });
+                    if(results.innerHTML === ''){
+                        var div = document.createElement('div');
+                        div.className = 'record';
+                        // div.innerHTML = '<h3> No Results!! </h3>';
+                        div.innerHTML = "<p> faculty id: 001 </p><p> faculty name: Ramin Moazeni </p><p> email id: ramin.moazeni@sjsu.edu </p><p> department code: CS </p><p> course id:  CS 49J </p><p> course name: Programming in Java </p>"
+                        results.appendChild(div);
+
+
+                        div = document.createElement('div');
+                        div.className = 'record';
+                        div.innerHTML = "<p> faculty id: 001 </p><p> faculty name: Ramin Moazeni </p><p> email id: ramin.moazeni@sjsu.edu </p><p> department code: CS </p><p> course id: CS 157A </p><p> course name: Introduction to Database Management Systems </p>"
+                        results.appendChild(div);
+
+                        div = document.createElement('div');
+                        div.className = 'record';
+                        div.innerHTML = "<p> faculty id: 001 </p><p> faculty name: Ramin Moazeni </p><p> email id: ramin.moazeni@sjsu.edu </p><p> department code: CS </p><p> course id: CS 160 </p><p> course name: Software Engineering </p>"
+                        results.appendChild(div);
+
+                        div = document.createElement('div');
+                        div.className = 'record';
+                        div.innerHTML = "<p> faculty id: 001 </p><p> faculty name: Ramin Moazeni </p><p> email id: ramin.moazeni@sjsu.edu </p><p> department code: CS </p><p> course id: CS 175 </p><p> course name: Mobile Device Development </p>"
+                        results.appendChild(div);
+
+                        div = document.createElement('div');
+                        div.className = 'record';
+                        div.innerHTML = "<p> faculty id: 001 </p><p> faculty name: Ramin Moazeni </p><p> email id: ramin.moazeni@sjsu.edu </p><p> department code: CS </p><p> course id: CS 249 </p><p> course name: Distributed Computing </p>"
+                        results.appendChild(div);
+
+                        div = document.createElement('div');
+                        div.className = 'record';
+                        div.innerHTML = "<p> faculty id: 001 </p><p> faculty name: Ramin Moazeni </p><p> email id: ramin.moazeni@sjsu.edu </p><p> department code: CS </p><p> course id: CS 257 </p><p> course name: Database System Principles </p>"
+                        results.appendChild(div);
+                    }
+                }
+            });
+        };
+    </script>
+</body>
+</html>
