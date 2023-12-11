@@ -27,6 +27,19 @@
     * sudo apt install nmap
     * sudo apt install slowloris
 
+# Features
+* Run commands on Target system (where we have installed Flask server):
+ * python flask_limiter.py
+ * python geo-ip.py
+ * python rbac.py
+ * python two-factor-authentication.py
+ * python user-registration-forms.py
+ * python monitoring-and-logging.py
+ * python server.py
+
+ * We have added features like Rate Limiting, Geo-IP Filtering, Role-based access control (RBAC), Two-Factor-Authentication (2FA), and Monitoring & Logging. For registering new users to DB, run user-registration-forms.py
+ * To host the database on the server, run server.py
+
 **Contributions:**
 * Sohan Vallapureddy:
   * Developing DB Schema and Architecture Model
